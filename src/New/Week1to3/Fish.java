@@ -1,4 +1,4 @@
-package New;
+package New.Week1to3;
 
 import java.util.Random;
 

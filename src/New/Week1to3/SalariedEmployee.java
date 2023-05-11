@@ -1,4 +1,4 @@
-package New;
+package New.Week1to3;
 
 public class SalariedEmployee extends Employee {
     public SalariedEmployee(String name, double birthday) {

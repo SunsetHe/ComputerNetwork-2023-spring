@@ -1,4 +1,4 @@
-package New;
+package New.Week1to3;
 
 public class stopWatch extends Watch {
     public stopWatch() {
