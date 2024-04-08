@@ -8,23 +8,25 @@ import java.nio.charset.StandardCharsets;
 
 public class UDPSearcher {
     public static void main(String[] args) throws IOException {
-        String sendData = "Username:admin;key:123";
+        String sendData = MessageUtil.buildWithPort(30000);
         byte[] sendBytes = sendData.getBytes(StandardCharsets.UTF_8);
-        DatagramSocket datagramSocket = new DatagramSocket(9092);
-        DatagramPacket sendPacket = new DatagramPacket(sendBytes,
-                0,sendBytes.length, InetAddress.getLocalHost(),
-                9091);
+        DatagramSocket datagramSocket = new DatagramSocket(30000);
+        DatagramPacket sendPacket = new DatagramPacket(sendBytes, 0,
+                sendBytes.length,
+                InetAddress.getByName("255.255.255.255"), 9091);
         datagramSocket.send(sendPacket);
-        System.out.println("数据发送完毕");
+        System.out.println("数据发送完毕...");
 
-        byte[] bytes = new byte[1024];
-        DatagramPacket receicePacket = new DatagramPacket(bytes,0,
-                bytes.length);
-        datagramSocket.receive(receicePacket);
-        System.out.println("接收到"+
-                receicePacket.getAddress().getHostAddress()+" :"+
-                receicePacket.getPort()+"消息"+
-                new String(receicePacket.getData(),0, receicePacket.getLength()));
+        byte[] buf_get = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(buf_get,
+                0, buf_get.length);
+        datagramSocket.receive(receivePacket);
+        int len = receivePacket.getLength();
+        String data = new String(receivePacket.getData(),0, len);
+        String tag = MessageUtil.parseTag(data);
+        System.out.println(tag);
+
         datagramSocket.close();
+
     }
 }
